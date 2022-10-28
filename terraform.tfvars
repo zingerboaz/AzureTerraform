@@ -1,6 +1,6 @@
 # Deployment Config
 
-resourcegroup_name = "NetworkWatcherRG"
+resourcegroup_name = "prodact"
 
 location = "East US"
 
