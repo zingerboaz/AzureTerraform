@@ -1,6 +1,6 @@
 # Deployment Config
 
-resourcegroup_name = "prodact"
+resourcegroup_name = "product-resources"
 
 location = "East US"
 
