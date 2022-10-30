@@ -62,37 +62,37 @@ resource "azurerm_bastion_host" "bastion" {
 }
 
 
-# resource "azurerm_kubernetes_cluster" "prodact" {
-#   name                = "prodact-aks1"
-#   location            = var.location
-#   resource_group_name = var.resourcegroup_name
-#   dns_prefix          = "prodactaks1"
+resource "azurerm_kubernetes_cluster" "prodact" {
+  name                = "prodact-aks1"
+  location            = var.location
+  resource_group_name = var.resourcegroup_name
+  dns_prefix          = "prodactaks1"
 
-#   default_node_pool {
-#     name       = "default"
-#     node_count = 1
-#     vm_size    = "Standard_B2s"
-#   }
+  default_node_pool {
+    name       = "default"
+    node_count = 1
+    vm_size    = "Standard_B2s"
+  }
 
-#   identity {
-#     type = "SystemAssigned"
-#   }
+  identity {
+    type = "SystemAssigned"
+  }
 
-#   tags = {
-#     Environment = "Production"
-#   }
-# }
+  tags = {
+    Environment = "Production"
+  }
+}
 
-# output "client_certificate" {
-#   value     = azurerm_kubernetes_cluster.prodact.kube_config.0.client_certificate
-#   sensitive = true
-# }
+output "client_certificate" {
+  value     = azurerm_kubernetes_cluster.prodact.kube_config.0.client_certificate
+  sensitive = true
+}
 
-# output "kube_config" {
-#   value = azurerm_kubernetes_cluster.prodact.kube_config_raw
+output "kube_config" {
+  value = azurerm_kubernetes_cluster.prodact.kube_config_raw
 
-#   sensitive = true
-# }
+  sensitive = true
+}
 
 
 
