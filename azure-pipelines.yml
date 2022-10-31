@@ -79,6 +79,8 @@ stages:
               command: 'apply'
               environmentServiceNameAzureRM: 'DevTestServiceConnection'
 
+          
+          
           - task: Kubernetes@1
             inputs:
               connectionType: 'Kubernetes Service Connection'
@@ -90,6 +92,11 @@ stages:
               containerRegistryType: 'Azure Container Registry'
               outputFormat: 'none'
 
+          - task: KubectlInstaller@0
+            inputs:
+              kubectlVersion: 'latest'
+          
+          
           - task: Kubernetes@1
             inputs:
               connectionType: 'Kubernetes Service Connection'
