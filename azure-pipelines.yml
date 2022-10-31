@@ -78,7 +78,10 @@ stages:
               provider: 'azurerm'
               command: 'apply'
               environmentServiceNameAzureRM: 'DevTestServiceConnection'
-
+          
+          - task: KubectlInstaller@0
+            inputs:
+              kubectlVersion: 'latest' 
           
           
           - task: Kubernetes@1
@@ -92,9 +95,7 @@ stages:
               containerRegistryType: 'Azure Container Registry'
               outputFormat: 'none'
 
-          - task: KubectlInstaller@0
-            inputs:
-              kubectlVersion: 'latest'
+          
           
           
           - task: Kubernetes@1
