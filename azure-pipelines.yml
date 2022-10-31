@@ -84,16 +84,16 @@ stages:
               kubectlVersion: 'latest' 
           
           
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'AKS'
-              namespace: 'default'
-              command: 'create'
-              arguments: 'deployment rest-api --image scottyfullstack/basic-rest-api:v01'
-              secretType: 'dockerRegistry'
-              containerRegistryType: 'Azure Container Registry'
-              outputFormat: 'none'
+          # - task: Kubernetes@1
+          #   inputs:
+          #     connectionType: 'Kubernetes Service Connection'
+          #     kubernetesServiceEndpoint: 'AKS'
+          #     namespace: 'default'
+          #     command: 'create'
+          #     arguments: 'deployment rest-api --image scottyfullstack/basic-rest-api:v01'
+          #     secretType: 'dockerRegistry'
+          #     containerRegistryType: 'Azure Container Registry'
+          #     outputFormat: 'none'
 
           
           
