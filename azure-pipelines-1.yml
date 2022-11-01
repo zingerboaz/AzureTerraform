@@ -1,0 +1,94 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  bkstrgrg: 'NetworkWatcherRG'
+  bkstrg: 'tfstatestorg'
+  bkscontainer: 'tfstate'
+  bkstrgkey: 'devpipeline/terrform.tfstate'
+    
+stages:
+   
+  - stage: tfdestroy
+        
+    jobs:
+      - job: destroy
+        steps:
+          - task: TerraformInstaller@0
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
+          
+          - task: TerraformTaskV3@3
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'DevTestServiceConnection'
+              backendAzureRmResourceGroupName: '$(bkstrgrg)'
+              backendAzureRmStorageAccountName: '$(bkstrg)'
+              backendAzureRmContainerName: '$(bkscontainer)'
+              backendAzureRmKey: '$(bkstrgkey)'
+              
+          - task: TerraformTaskV3@3
+            displayName: plan 
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              environmentServiceNameAzureRM: 'DevTestServiceConnection'
+
+          - task: TerraformTaskV3@3
+            displayName: destroy
+            inputs:
+              provider: 'azurerm'
+              command: 'destroy'
+              environmentServiceNameAzureRM: 'DevTestServiceConnection'
+          
+          # - task: KubectlInstaller@0
+          #   inputs:
+          #     kubectlVersion: 'latest' 
+          
+          
+          # - task: Kubernetes@1
+          #   inputs:
+          #     connectionType: 'Kubernetes Service Connection'
+          #     kubernetesServiceEndpoint: 'AKS'
+          #     namespace: 'default'
+          #     command: 'create'
+          #     arguments: 'deployment rest-api --image scottyfullstack/basic-rest-api:v01'
+          #     secretType: 'dockerRegistry'
+          #     containerRegistryType: 'Azure Container Registry'
+          #     outputFormat: 'none'
+
+          
+          
+          
+          # - task: Kubernetes@1
+          #   inputs:
+          #     connectionType: 'Kubernetes Service Connection'
+          #     kubernetesServiceEndpoint: 'AKS'
+          #   # namespace: 'defaulte'
+          #     command: 'expose'
+          #     arguments: 'deployment rest-api --type=LoadBalancer --port=8000'
+          #     secretType: 'dockerRegistry'
+          #     containerRegistryType: 'Azure Container Registry'
+          #     outputFormat: 'none'
+
+
+          # - task: Kubernetes@1
+          #   inputs:
+          #     connectionType: 'Kubernetes Service Connection'
+          #     kubernetesServiceEndpoint: 'AKS'
+          #   # namespace: 'default'
+          #     command: 'get'
+          #     arguments: 'svc'
+          #     secretType: 'dockerRegistry'
+          #     containerRegistryType: 'Azure Container Registry'
+
