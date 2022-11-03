@@ -15,39 +15,10 @@ variables:
   bkstrgkey: 'devpipeline/terrform.tfstate'
     
 stages:
-  - stage: tfvalidate
+  
+  - stage: tfdestroy
     jobs:
-      - job: validate
-        continueOnError: false   
-        steps:
-          
-          - task: TerraformInstaller@0
-            displayName: tfinstall
-            inputs:
-              terraformVersion: 'latest'
-          
-          - task: TerraformTaskV3@3
-            displayName: init
-            inputs:
-              provider: 'azurerm'
-              command: 'init'
-              backendServiceArm: 'DevTestServiceConnection'
-              backendAzureRmResourceGroupName: '$(bkstrgrg)'
-              backendAzureRmStorageAccountName: '$(bkstrg)'
-              backendAzureRmContainerName: '$(bkscontainer)'
-              backendAzureRmKey: '$(bkstrgkey)'
-
-          - task: TerraformTaskV3@3
-            displayName: validate
-            inputs:
-              provider: 'azurerm'
-              command: 'validate'
-
-  - stage: tfdeploy
-    condition: succeeded('tfvalidate')
-    dependsOn: tfvalidate    
-    jobs:
-      - job: apply
+      - job: destroy
         steps:
           - task: TerraformInstaller@0
             displayName: tfinstall
@@ -73,50 +44,50 @@ stages:
               environmentServiceNameAzureRM: 'DevTestServiceConnection'
 
           - task: TerraformTaskV3@3
-            displayName: apply
+            displayName: destroy
             inputs:
               provider: 'azurerm'
-              command: 'apply'
+              command: 'destroy'
               environmentServiceNameAzureRM: 'DevTestServiceConnection'
           
-          - task: KubectlInstaller@0
-            inputs:
-              kubectlVersion: 'latest' 
+          # - task: KubectlInstaller@0
+          #   inputs:
+          #     kubectlVersion: 'latest' 
           
           
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'AKS'
-              namespace: 'default'
-              command: 'create'
-              arguments: 'deployment rest-api --image scottyfullstack/basic-rest-api:v01'
-              secretType: 'dockerRegistry'
-              containerRegistryType: 'Azure Container Registry'
-              outputFormat: 'none'
+          # - task: Kubernetes@1
+          #   inputs:
+          #     connectionType: 'Kubernetes Service Connection'
+          #     kubernetesServiceEndpoint: 'AKS'
+          #     namespace: 'default'
+          #     command: 'create'
+          #     arguments: 'deployment rest-api --image scottyfullstack/basic-rest-api:v01'
+          #     secretType: 'dockerRegistry'
+          #     containerRegistryType: 'Azure Container Registry'
+          #     outputFormat: 'none'
 
           
           
           
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'AKS'
-            # namespace: 'defaulte'
-              command: 'expose'
-              arguments: 'deployment rest-api --type=LoadBalancer --port=8000'
-              secretType: 'dockerRegistry'
-              containerRegistryType: 'Azure Container Registry'
-              outputFormat: 'none'
+          # - task: Kubernetes@1
+          #   inputs:
+          #     connectionType: 'Kubernetes Service Connection'
+          #     kubernetesServiceEndpoint: 'AKS'
+          #   # namespace: 'defaulte'
+          #     command: 'expose'
+          #     arguments: 'deployment rest-api --type=LoadBalancer --port=8000'
+          #     secretType: 'dockerRegistry'
+          #     containerRegistryType: 'Azure Container Registry'
+          #     outputFormat: 'none'
 
 
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'AKS'
-            # namespace: 'default'
-              command: 'get'
-              arguments: 'svc'
-              secretType: 'dockerRegistry'
-              containerRegistryType: 'Azure Container Registry'
+          # - task: Kubernetes@1
+          #   inputs:
+          #     connectionType: 'Kubernetes Service Connection'
+          #     kubernetesServiceEndpoint: 'AKS'
+          #   # namespace: 'default'
+          #     command: 'get'
+          #     arguments: 'svc'
+          #     secretType: 'dockerRegistry'
+          #     containerRegistryType: 'Azure Container Registry'
 
