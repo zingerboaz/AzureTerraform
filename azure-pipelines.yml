@@ -121,4 +121,3 @@ stages:
               secretType: 'dockerRegistry'
               containerRegistryType: 'Azure Container Registry'
 
-/subscriptions/5b584631-3869-450e-b797-9be9da2276cf/resourceGroups/NetworkWatcherRG/providers/Microsoft.ContainerRegistry/registries/webNodejs
