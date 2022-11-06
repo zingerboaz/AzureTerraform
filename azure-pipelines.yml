@@ -90,7 +90,7 @@ stages:
               kubernetesServiceEndpoint: 'AKS'
               namespace: 'default'
               command: 'create'
-              arguments: 'deployment rest-api --image webnodejs.azurecr.io/node-web-app:latest'
+              arguments: 'deployment --image webnodejs.azurecr.io/node-web-app:latest'
              # arguments: 'deployment rest-api --image scottyfullstack/basic-rest-api:v01'
               secretType: 'dockerRegistry'
               containerRegistryType: 'Azure Container Registry'
