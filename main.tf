@@ -97,70 +97,70 @@ output "kube_config" {
 
 
 
-resource "azurerm_public_ip" "prodact" {
-  name                = "PublicIPForLB"
-  location            = var.location
-  resource_group_name = var.resourcegroup_name
-  allocation_method   = "Static"
-}
+# resource "azurerm_public_ip" "prodact" {
+#   name                = "PublicIPForLB"
+#   location            = var.location
+#   resource_group_name = var.resourcegroup_name
+#   allocation_method   = "Static"
+# }
 
-resource "azurerm_lb" "prodact" {
-  name                = "TestLoadBalancer"
-  location            = var.location
-  resource_group_name = var.resourcegroup_name
+# resource "azurerm_lb" "prodact" {
+#   name                = "TestLoadBalancer"
+#   location            = var.location
+#   resource_group_name = var.resourcegroup_name
 
-  frontend_ip_configuration {
-    name                 = "PublicIPAddress"
-    public_ip_address_id = azurerm_public_ip.prodact.id
-  }
-}
-
-
+#   frontend_ip_configuration {
+#     name                 = "PublicIPAddress"
+#     public_ip_address_id = azurerm_public_ip.prodact.id
+#   }
+# }
 
 
 
 
-# Create a resource group
-resource "azurerm_resource_group" "product" {
-  name     = "product-resources"
-  location = "East US"
-}
 
-# Create a virtual network within the resource group
-resource "azurerm_virtual_network" "product" {
-  name                = "product-network"
-  resource_group_name = azurerm_resource_group.product.name
-  location            = azurerm_resource_group.product.location
-  address_space       = ["10.0.0.0/16"]
-}
 
-resource "azurerm_kubernetes_cluster" "product" {
-  name                = "product-aks1"
-  location            = azurerm_resource_group.product.location
-  resource_group_name = azurerm_resource_group.product.name
-  dns_prefix          = "productaks1"
+# # Create a resource group
+# resource "azurerm_resource_group" "product" {
+#   name     = "product-resources"
+#   location = "East US"
+# }
 
-  default_node_pool {
-    name       = "default"
-    node_count = 1
-    vm_size    = "Standard_B2s"
-  }
+# # Create a virtual network within the resource group
+# resource "azurerm_virtual_network" "product" {
+#   name                = "product-network"
+#   resource_group_name = azurerm_resource_group.product.name
+#   location            = azurerm_resource_group.product.location
+#   address_space       = ["10.0.0.0/16"]
+# }
 
-  identity {
-    type = "SystemAssigned"
-  }
+# resource "azurerm_kubernetes_cluster" "product" {
+#   name                = "product-aks1"
+#   location            = azurerm_resource_group.product.location
+#   resource_group_name = azurerm_resource_group.product.name
+#   dns_prefix          = "productaks1"
 
-  tags = {
-    Environment = "Production"
-  }
-}
+#   default_node_pool {
+#     name       = "default"
+#     node_count = 1
+#     vm_size    = "Standard_B2s"
+#   }
 
-output "client_certificate" {
-  value = azurerm_kubernetes_cluster.product.kube_config.0.client_certificate
-}
+#   identity {
+#     type = "SystemAssigned"
+#   }
 
-output "kube_config" {
-  value = azurerm_kubernetes_cluster.product.kube_config_raw
+#   tags = {
+#     Environment = "Production"
+#   }
+# }
 
-  sensitive = true
-}
+# output "client_certificate" {
+#   value = azurerm_kubernetes_cluster.product.kube_config.0.client_certificate
+# }
+
+# output "kube_config" {
+#   value = azurerm_kubernetes_cluster.product.kube_config_raw
+
+#   sensitive = true
+# }
