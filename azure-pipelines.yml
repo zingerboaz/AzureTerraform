@@ -84,40 +84,40 @@ stages:
               kubectlVersion: 'latest' 
           
           
-          # - task: Kubernetes@1
-          #   inputs:
-          #     connectionType: 'Kubernetes Service Connection'
-          #     kubernetesServiceEndpoint: 'AKS'
-          #     namespace: 'default'
-          #     command: 'create'
-          #     arguments: 'deployment restap --image webnodejs.azurecr.io/node-web-app:latest'
-          #    # arguments: 'deployment rest-api --image scottyfullstack/basic-rest-api:v01'
-          #     secretType: 'dockerRegistry'
-          #     containerRegistryType: 'Azure Container Registry'
-          #     outputFormat: 'none'
+          - task: Kubernetes@1
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'AKS'
+              namespace: 'default'
+              command: 'create'
+              arguments: 'deployment restap --image webnodejs.azurecr.io/node-web-app:latest'
+             # arguments: 'deployment rest-api --image scottyfullstack/basic-rest-api:v01'
+              secretType: 'dockerRegistry'
+              containerRegistryType: 'Azure Container Registry'
+              outputFormat: 'none'
 
           
           
           
-          # - task: Kubernetes@1
-          #   inputs:
-          #     connectionType: 'Kubernetes Service Connection'
-          #     kubernetesServiceEndpoint: 'AKS'
-          #   # namespace: 'defaulte'
-          #     command: 'expose'
-          #     arguments: 'deployment restap --type=LoadBalancer --port=8000'
-          #     secretType: 'dockerRegistry'
-          #     containerRegistryType: 'Azure Container Registry'
-          #     outputFormat: 'none'
+          - task: Kubernetes@1
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'AKS'
+            # namespace: 'defaulte'
+              command: 'expose'
+              arguments: 'deployment restap --type=LoadBalancer --port=8000'
+              secretType: 'dockerRegistry'
+              containerRegistryType: 'Azure Container Registry'
+              outputFormat: 'none'
 
 
-          # - task: Kubernetes@1
-          #   inputs:
-          #     connectionType: 'Kubernetes Service Connection'
-          #     kubernetesServiceEndpoint: 'AKS'
-          #   # namespace: 'default'
-          #     command: 'get'
-          #     arguments: 'svc'
-          #     secretType: 'dockerRegistry'
-          #     containerRegistryType: 'Azure Container Registry'
+          - task: Kubernetes@1
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'AKS'
+            # namespace: 'default'
+              command: 'get'
+              arguments: 'svc'
+              secretType: 'dockerRegistry'
+              containerRegistryType: 'Azure Container Registry'
 
