@@ -83,13 +83,13 @@ stages:
             inputs:
               kubectlVersion: 'latest' 
           
-          - task: Bash@3
-            inputs:
-              targetType: 'inline'
-              script: |
-                # Write your commands here
+          # - task: Bash@3
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       # Write your commands here
                 
-                az acr login --name webNodejs
+          #       az acr login --name webNodejs
 
 
           - task: Kubernetes@1
