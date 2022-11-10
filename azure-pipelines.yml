@@ -83,12 +83,13 @@ stages:
             inputs:
               kubectlVersion: 'latest' 
           
-          - task: AzureCLI@2
+          - task: Bash@3
             inputs:
-              azureSubscription: 'superadmin'
-              scriptType: 'ps'
-              scriptLocation: 'inlineScript'
-              inlineScript: 'az acr login --name webNodejs'
+              targetType: 'inline'
+              script: |
+                # Write your commands here
+                
+                az acr login --name webNodejs
 
 
           - task: Kubernetes@1
