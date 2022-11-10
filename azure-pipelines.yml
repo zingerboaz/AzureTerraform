@@ -83,6 +83,13 @@ stages:
             inputs:
               kubectlVersion: 'latest' 
           
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: 'admin'
+              scriptType: 'batch'
+              scriptLocation: 'inlineScript'
+              inlineScript: 'az acr login --name webNodejs'
+
           # - task: Bash@3
           #   inputs:
           #     targetType: 'inline'
