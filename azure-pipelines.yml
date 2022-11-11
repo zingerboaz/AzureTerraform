@@ -79,9 +79,10 @@ stages:
               command: 'apply'
               environmentServiceNameAzureRM: 'DevTestServiceConnection'
           
-          - task: KubectlInstaller@0
-            inputs:
-              kubectlVersion: 'latest' 
+           
+         # - task: KubectlInstaller@0
+          #   inputs:
+          #     kubectlVersion: 'latest' 
           
           # - task: Docker@2
           #   displayName: Login to registry
